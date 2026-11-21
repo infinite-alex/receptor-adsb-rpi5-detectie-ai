@@ -1,8 +1,8 @@
 <div align="center">
 
-# ✈️ Stație ADS-B cu detecție AI a traiectoriilor anormale
+# ✈️ Receptor ADS-B pe Raspberry Pi 5 cu detecție AI
 
-**Un receptor de trafic aerian construit acasă, care învață cum zboară avioanele normal și observă când ceva nu arată bine.**
+**Proiect de licență.** Un receptor de trafic aerian construit acasă, care învață cum zboară avioanele normal, observă când ceva nu arată bine și prezice unde va fi un avion în următoarele minute.
 
 ![Raspberry Pi 5](https://img.shields.io/badge/Raspberry%20Pi%205-A22846?logo=raspberrypi&logoColor=white)
 ![RTL-SDR](https://img.shields.io/badge/RTL--SDR-1090%20MHz-0b7285)
@@ -20,10 +20,11 @@ Lucrare de licență · Universitatea Titu Maiorescu, Facultatea de Informatică
 
 Avioanele își transmit singure, de câteva ori pe secundă, poziția, altitudinea, viteza și direcția, prin semnale **ADS-B** pe frecvența de 1090 MHz. Cu o antenă mică și un stick **RTL-SDR** conectat la un **Raspberry Pi 5**, aceste semnale pot fi recepționate de pe un simplu balcon.
 
-Proiectul are două părți:
+Proiectul are trei părți:
 
 1. **Stația de recepție.** Raspberry Pi-ul decodează mesajele ADS-B, reconstruiește traiectoria fiecărui zbor și le salvează local.
 2. **Detecția anomaliilor.** Un model de învățare automată, antrenat pe traiectorii istorice de la [OpenSky Network](https://opensky-network.org/), învață tiparul zborurilor obișnuite și semnalează ce iese din tipar.
+3. **Predicția traiectoriei.** Pe baza ultimelor poziții recepționate, modelul estimează pozițiile viitoare ale avionului.
 
 ## 🔍 Ce înseamnă o traiectorie „anormală”
 
@@ -44,8 +45,10 @@ flowchart LR
     C --> D[(Stocare locală<br/>traiectorii)]
     O[(OpenSky Network<br/>date istorice)] --> E[Preprocesare<br/>și features]
     D --> E
-    E --> F[Model de detecție<br/>anomalii]
+    E --> F[Detecție anomalii]
+    E --> P[Predicție poziții]
     F --> G[Dashboard<br/>și alerte]
+    P --> G
 ```
 
 - **Antrenare:** date istorice OpenSky pentru zona României.
@@ -79,6 +82,7 @@ docs/         documentația lucrării
 - [ ] Acces la datele istorice OpenSky
 - [ ] Preprocesarea traiectoriilor
 - [ ] Modelul de detecție a anomaliilor
+- [ ] Modelul de predicție a pozițiilor
 - [ ] Evaluarea pe datele stației proprii
 - [ ] Dashboard
 - [ ] Lucrarea scrisă și susținerea
